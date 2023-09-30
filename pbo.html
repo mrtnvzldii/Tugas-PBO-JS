@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Tebak Angka</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        .game-container {
+            background-color: #fff;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #scoreboard {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Game Tebak Angka</h1>
+        <p>Selamat datang! Masukkan nama Anda dan tekan 'Mulai' untuk bermain!</p>
+        <input type="text" id="playerName" placeholder="Masukkan nama Anda" />
+        <button onclick="startGame()">Mulai</button>
+        <div id="scoreboard">
+            <h2>Skor: <span id="playerScore">0</span></h2>
+        </div>
+    </div>
+    <script>
+        function getRandomNumber() {
+            return Math.floor(Math.random() * 100) + 1;
+        }
+
+        class Player {
+            constructor(name) {
+                this.name = name;
+                this.score = 0;
+            }
+        }
+
+        const playerNameInput = document.getElementById('playerName');
+        const playerScoreElem = document.getElementById('playerScore');
+        let player;
+
+        function startGame() {
+            player = new Player(playerNameInput.value);
+            let playAgain;
+
+            do {
+                let target = getRandomNumber();
+                let guess;
+                let attempts = 0;
+
+                alert(`Hai, ${player.name}! Saya telah memilih angka antara 1 dan 100. Coba tebak!`);
+
+                while (true) {
+                    guess = parseInt(prompt("Tebakan Anda:"));
+                    attempts++;
+
+                    if (guess === target) {
+                        alert(`Selamat! Anda berhasil menebak angka ${target} dalam ${attempts} percobaan.`);
+                        player.score++;
+                        playerScoreElem.textContent = player.score;
+                        break;
+                    } else if (guess < target) {
+                        alert("Tebakan Anda terlalu rendah. Coba lagi.");
+                    } else {
+                        alert("Tebakan Anda terlalu tinggi. Coba lagi.");
+                    }
+                }
+
+                playAgain = prompt("Apakah Anda ingin bermain lagi? (y/n):").toLowerCase();
+            } while (playAgain === 'y');
+
+            alert(`Terima kasih telah bermain, ${player.name}! Skor Anda: ${player.score}`);
+        }
+    </script>
+</body>
+</html>
